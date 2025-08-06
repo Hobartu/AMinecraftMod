@@ -54,6 +54,20 @@ public class ExampleMod {
         () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties().setId(ITEMS.key("example_block")))
     );
 
+    // Creates a new Block with the id "examplemod:biggrass", combining the namespace and path
+    public static final RegistryObject<Block> BIG_GRASS = BLOCKS.register("biggrass",
+        () -> new Block(BlockBehaviour.Properties.of()
+            .setId(BLOCKS.key("biggrass"))
+            .mapColor(MapColor.GRASS)
+            .strength(0.6f)
+            .sound(net.minecraft.world.level.block.SoundType.GRASS)
+        )
+    );
+    // Creates a new BlockItem with the id "examplemod:biggrass", combining the namespace and path
+    public static final RegistryObject<Item> BIG_GRASS_ITEM = ITEMS.register("biggrass",
+        () -> new BlockItem(BIG_GRASS.get(), new Item.Properties().setId(ITEMS.key("biggrass")))
+    );
+
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item",
         () -> new Item(new Item.Properties()
@@ -110,10 +124,12 @@ public class ExampleMod {
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
-    // Add the example block item to the building blocks tab
+    // Add the example block item and biggrass to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(EXAMPLE_BLOCK_ITEM);
+            event.accept(BIG_GRASS_ITEM);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
